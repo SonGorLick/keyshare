@@ -94,7 +94,7 @@ Route::middleware(['auth:sanctum', 'verified', 'approved'])->group(function () {
     Route::get('/games/edit/{id}', [GameController::class, 'edit'])->name('game.edit');
     Route::put('/games/update', [GameController::class, 'update'])->name('game.update');
     Route::get('/games/dlc/edit/{dlc}', [DlcController::class, 'edit'])->name('dlc.edit');
-    Route::post('/games/dlc/update', [DlcController::class, 'update'])->name('dlc.update');
+    Route::put('/games/dlc/update', [DlcController::class, 'update'])->name('dlc.update');
 });
 
 Route::middleware(['admin'])->group(function () {

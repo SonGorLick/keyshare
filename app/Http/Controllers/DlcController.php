@@ -8,6 +8,7 @@ use Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Redirect;
 
 class DlcController extends Controller
 {
@@ -47,7 +48,9 @@ class DlcController extends Controller
 
     public function edit(Dlc $dlc)
     {
-        return view('dlc.edit')->withDlc($dlc);
+        return Inertia::render('Dlc/Edit', [
+            'dlc' => $dlc
+        ]);
     }
 
     public function update(Request $request)
@@ -55,17 +58,17 @@ class DlcController extends Controller
 
         $this->validate($request, [
             'name' => 'required',
-            'image' => 'image|nullable|max:1999|dimensions:width=460,height=215'
+            'photo' => 'image|nullable|max:1999'
         ]);
 
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('photo')) {
             $filename = uniqid();
-            $extension = $request->file('image')->getClientOriginalExtension();
+            $extension = $request->file('photo')->getClientOriginalExtension();
             $filenameToStore = $filename . '.' . $extension;
             $folderToStore = 'images/dlc/';
             $fullImagePath = $folderToStore . $filenameToStore;
 
-            $path = $request->file('image')->storeAs('public/' . $folderToStore, $filenameToStore);
+            $path = $request->file('photo')->storeAs('public/' . $folderToStore, $filenameToStore);
         }
 
 
@@ -73,7 +76,7 @@ class DlcController extends Controller
 
         $dlc->name = $request->name;
         $dlc->description = $request->description;
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('photo')) {
             $dlc->image = 'storage/' . $fullImagePath;
         }
 
@@ -88,8 +91,7 @@ class DlcController extends Controller
 
         $dlc->save();
 
-
-        return redirect()->route('dlc', $dlc)->with('message', __('dlc.dlcupdated'));
+        return Redirect::route('dlc.show', [$dlc]);
     }
 
     public function destroy(Dlc $dlc)

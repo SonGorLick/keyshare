@@ -63,6 +63,11 @@ class Key extends Model
         return $this->belongsTo('App\Models\Game');
     }
 
+    public function dlc()
+    {
+        return $this->belongsTo('App\Models\Dlc');
+    }
+
     public function platform()
     {
         return $this->belongsTo('App\Models\Platform');
