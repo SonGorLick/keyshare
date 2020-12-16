@@ -16,7 +16,7 @@ class DlcController extends Controller
     {
         $dlc = DB::table('dlcs')
             ->distinct()
-            ->selectRaw('dlcs.id, dlcs.name, concat("/", dlcs.image) as image, "dlc" as linktype')
+            ->selectRaw('dlcs.id, dlcs.name, dlcs.image, "dlc" as linktype')
             ->join('keys', 'keys.dlc_id', '=', 'dlcs.id')
             ->where('keys.owned_user_id', '=', null)
             ->where('keys.removed', '=', '0')
@@ -65,7 +65,7 @@ class DlcController extends Controller
             $filename = uniqid();
             $extension = $request->file('photo')->getClientOriginalExtension();
             $filenameToStore = $filename . '.' . $extension;
-            $folderToStore = 'images/dlc/';
+            $folderToStore = '/images/dlc/';
             $fullImagePath = $folderToStore . $filenameToStore;
 
             $path = $request->file('photo')->storeAs('public/' . $folderToStore, $filenameToStore);
@@ -77,7 +77,7 @@ class DlcController extends Controller
         $dlc->name = $request->name;
         $dlc->description = $request->description;
         if ($request->hasFile('photo')) {
-            $dlc->image = 'storage/' . $fullImagePath;
+            $dlc->image = $fullImagePath;
         }
 
         if (!empty($request->gamename)) {

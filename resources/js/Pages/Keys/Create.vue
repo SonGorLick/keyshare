@@ -5,7 +5,7 @@
     </template>
 
     <b-container>
-      <div v-if="$page.props.config.dlcenabled">
+      <div v-if="$page.props.config.dlc_enabled">
         <label for="Key Type">Key Type:</label>
         <br>
         <input
@@ -27,7 +27,7 @@
         <br>
 
         <create-key-game v-if="( KeyType == 'Game' )" />
-        <add-key-dlc v-if="( KeyType == 'DLC' )" />
+        <create-key-dlc v-if="( KeyType == 'DLC' )" />
       </div>
       <div v-else>
         <create-key-game />
@@ -39,11 +39,13 @@
 <script>
 import AppLayout from '@/Layouts/AppLayout'
 import CreateKeyGame from '@/Pages/Keys/CreateKeyGame'
+import CreateKeyDlc from '@/Pages/Keys/CreateKeyDlc'
 
 export default {
   components: {
     AppLayout,
-    CreateKeyGame
+    CreateKeyGame,
+    CreateKeyDlc
   },
   data () {
     return {
