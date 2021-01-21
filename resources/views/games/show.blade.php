@@ -5,26 +5,55 @@
 @endsection
 
 @section('content')
-
 <div class="container">
-    <img src="{{ asset($game->image) }}" class="img-fluid mx-auto d-block rounded">
+    <b-card style="background-color: #e9ecef;">
+        <b-container fluid>
+            <b-row>
+                <b-col>
+                    <img src="{{ asset($game->image) }}" class="img-fluid mx-auto d-block rounded">
+                    <!-- <span>{{$game->name}}</span> -->
+                    @if($genres)
+                        <br>
+                        @foreach($genres as $genre)
+                        <span class="badge bg-secondary">{{$genre->name}}</span>
+                        @endforeach
+                    @endif
+                </b-col>
+                @if($screenshots) 
+                    <b-col cols="9" sm="9">
+                        <b-carousel
+                            id="carousel-1"
+                            v-model="slide"
+                            :interval="4000"
+                            controls
+                            indicators
+                            background="#ababab"
+                            img-width="940"
+                            img-height="529"
+                            style="text-shadow: 1px 1px 2px #333; margin-bottom: 10px;"
+                            >
+                                @foreach($screenshots as $screenshot)
+                                    <b-carousel-slide
+                                        img-src="https://images.igdb.com/igdb/image/upload/t_screenshot_big/{{$screenshot->image_id}}.jpg"
+                                    ></b-carousel-slide>
+                                @endforeach
+                        </b-carousel>
+                    </b-col>
+                @endif
+            </b-row>
+        </b-container>
+        @if($igdb && $igdb->aggregated_rating)
+            <template #footer>
+                <b-form-rating id="rating-inline" inline value="{{ $igdb->aggregated_rating / 20 }}" disabled></b-form-rating>
+                <label for="rating-inline">By {{ $igdb->aggregated_rating_count }} reviewers</label>
+            </template>
+        @endif
+    </b-card>
     <br>
     @can('admin',Auth::user())
         <a href="{{ route('editgame', ['id' => $game->id]) }}">{{ __('games.editgame') }}</a><br>
     @endcan
     <p> {{$game->description}} </p>
-    @if($genres)
-        <br>
-        @foreach($genres as $genre)
-            <span class="badge bg-secondary">{{$genre->name}}</span>
-        @endforeach
-        <br>
-    @endif
-    
-    @if($igdb && $igdb->aggregated_rating)
-       Rated an average of {{ $igdb->aggregated_rating }}  by {{ $igdb->aggregated_rating_count }} reviewers
-    @endif
-
 
     <table class="table">
 
@@ -55,17 +84,6 @@
         <div class="page">
             <title-header title="DLC"></title-header>
             <Game-List url="{{ $dlcurl }}"></Game-List>
-        </div>
-    @endif
-
-
-    @if($screenshots) 
-        <div class="row">
-        @foreach($screenshots as $screenshot)
-            <div class="col-md-4" style="padding-bottom: 15px;">
-                <img src="https://images.igdb.com/igdb/image/upload/t_screenshot_big/{{$screenshot->image_id}}.jpg"  class="img-thumbnail img-fluid">
-            </div>
-        @endforeach
         </div>
     @endif
 </div>

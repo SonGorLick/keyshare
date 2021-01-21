@@ -21,6 +21,7 @@
 </head>
 <body>
     <div id="app">
+    <div>
         <nav class="navbar navbar-expand-lg navbar-dark navbar-keyshare bg-dark fixed-top">
             <a class="navbar-brand mr-auto" href="{{ route('home') }}">{{ config('app.name', 'Laravel') }}</a>
             @guest
