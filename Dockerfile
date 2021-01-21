@@ -2,9 +2,9 @@ FROM composer:1.9.3 as build
 WORKDIR /app
 COPY . /app
 COPY .env.example /app/.env
-RUN composer install
+RUN composer install --ignore-platform-reqs
 
-FROM php:7.3-apache
+FROM php:8.0.1-apache
 EXPOSE 80
 COPY --from=build /app /app
 COPY docker/vhost.conf /etc/apache2/sites-available/000-default.conf
