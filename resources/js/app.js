@@ -22,8 +22,6 @@ Vue.use(IconsPlugin)
 Vue.use(PortalVue)
 
 Vue.component('autocomplete', require('andyh-autocomplete').default)
-Vue.component('game-list', require('./Components/GameList.vue').default)
-Vue.component('add-key-dlc', require('./Components/AddKeyDlc.vue').default)
 
 Vue.component('RouterLink', RouterLink)
 Vue.prototype.$router = 'fake'

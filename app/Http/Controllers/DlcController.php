@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Dlc;
-use App\Game;
+use App\Models\Dlc;
+use App\Models\Game;
 use Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DlcController extends Controller
 {
@@ -14,7 +15,7 @@ class DlcController extends Controller
     {
         $dlc = DB::table('dlcs')
             ->distinct()
-            ->selectRaw('dlcs.id, dlcs.name, concat("/", dlcs.image) as image, concat("/games/dlc/", dlcs.id) as url')
+            ->selectRaw('dlcs.id, dlcs.name, concat("/", dlcs.image) as image, "dlc" as linktype')
             ->join('keys', 'keys.dlc_id', '=', 'dlcs.id')
             ->where('keys.owned_user_id', '=', null)
             ->where('keys.removed', '=', '0')
@@ -38,7 +39,10 @@ class DlcController extends Controller
             ->with('platform', 'createduser')
             ->get();
 
-        return view('dlc.show')->withDlc($dlc)->withKeys($keys);
+        return Inertia::render('Dlc/Show', [
+            'dlc' => $dlc,
+            'keys' => $keys
+        ]);
     }
 
     public function edit(Dlc $dlc)

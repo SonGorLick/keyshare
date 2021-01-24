@@ -92,8 +92,10 @@
         v-if="dlcCount > 0"
         class="page"
       >
-        <title-header title="DLC" />
-        <p> DLC GOES HERE</p>
+        <div class="title">
+          <h2>DLC</h2>
+        </div>
+        <game-grid :url="dlcUrl" />
       </div>
     </b-container>
   </app-layout>
@@ -102,11 +104,13 @@
 <script>
 import AppLayout from '@/Layouts/AppLayout'
 import RouterLink from '../../Components/RouterLink.vue'
+import GameGrid from '../../Components/GameGrid.vue'
 
 export default {
   components: {
     AppLayout,
-    RouterLink
+    RouterLink,
+    GameGrid
   },
   props: {
     dlcenabled: {

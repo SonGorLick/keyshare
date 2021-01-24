@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KeyController;
 use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\DlcController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -85,13 +86,15 @@ Route::middleware(['auth:sanctum', 'verified', 'approved'])->group(function () {
     Route::get('/platform/get/{id}', [PlatformController::class, 'getPlatform']);
 
     //DLC
-    // Route::get('/games/dlc/get/{id}', [DlcController::class, 'index']);
-    // Route::get('/games/dlc/{dlc}', [DlcController::class, 'show'])->name('dlc');
+    Route::get('/games/dlc/get/{id}', [DlcController::class, 'index']);
+    Route::get('/games/dlc/{dlc}', [DlcController::class, 'show'])->name('dlc.show');
 
 
     //// TO BE MOVED TO ADMIN
     Route::get('/games/edit/{id}', [GameController::class, 'edit'])->name('game.edit');
     Route::put('/games/update', [GameController::class, 'update'])->name('game.update');
+    Route::get('/games/dlc/edit/{dlc}', [DlcController::class, 'edit'])->name('dlc.edit');
+    Route::post('/games/dlc/update', [DlcController::class, 'update'])->name('dlc.update');
 });
 
 Route::middleware(['admin'])->group(function () {
@@ -99,8 +102,7 @@ Route::middleware(['admin'])->group(function () {
     // Route::get('/admin/user/{id}', [AdminController::class, 'usersEdit'])->name('adminuseredit')->middleware('demomode');
     // Route::post('/admin/user/update', [AdminController::class, 'usersUpdate'])->name('adminuserupdate')->middleware('demomode');
 
-    // Route::get('/games/dlc/edit/{dlc}', [DlcController::class, 'edit'])->name('editdlc');
-    // Route::post('/games/dlc/update', [DlcController::class, 'update'])->name('updatedlc');
+
 
     
     
