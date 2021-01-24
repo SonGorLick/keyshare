@@ -11,6 +11,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Jetstream\Jetstream;
 
 class User extends Authenticatable
 {
@@ -126,5 +127,17 @@ class User extends Authenticatable
         } else {
             return 'success';
         }
+    }
+
+    public function currentTeam()
+    {
+        if (is_null($this->current_team_id)) {
+            $team = Team::where('system', true)->first();
+
+            $this->forceFill([
+                'current_team_id' => $team->id,
+            ])->save();
+        }
+        return $this->belongsTo(Jetstream::teamModel(), 'current_team_id');
     }
 }

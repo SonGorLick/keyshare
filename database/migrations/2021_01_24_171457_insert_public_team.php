@@ -17,7 +17,7 @@ class InsertPublicTeam extends Migration
         $user = User::where('email', '=', 'system')->first();
 
         DB::table('teams')->insert([
-            ['user_id' => $user->id, 'name' => 'Public', 'personal_team' => 0]
+            ['user_id' => $user->id, 'name' => 'Public', 'personal_team' => 0, 'system' => 1]
         ]);
 
         $team = DB::table('teams')->where('user_id', '=', $user->id)->first();
@@ -46,7 +46,6 @@ class InsertPublicTeam extends Migration
                 ->where('id', $user->id)
                 ->update(['current_team_id' => $team->id]);
         }
-
     }
 
     /**
@@ -56,9 +55,10 @@ class InsertPublicTeam extends Migration
      */
     public function down()
     {
-        $systemUser = User::where('email', '=', 'system')->first();
+        $systemUser = User::where('system', true)->first();
         $team = DB::table('teams')->where('user_id', '=', $systemUser->id)->first();
 
+        DB::table('users')->update(['current_team_id' => null]);
         DB::table('team_user')->where('team_id', '=', $team->id)->delete();
         DB::table('teams')->where('user_id', '=', $systemUser->id)->delete();
     }

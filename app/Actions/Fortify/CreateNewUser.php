@@ -39,7 +39,7 @@ class CreateNewUser implements CreatesNewUsers
                 'password' => Hash::make($input['password']),
                 'approved' => 1
             ]), function (User $user) {
-                $this->createTeam($user);
+                $this->joinPublicTeam($user);
             });
         });
     }
@@ -57,5 +57,11 @@ class CreateNewUser implements CreatesNewUsers
             'name' => explode(' ', $user->name, 2)[0]."'s Team",
             'personal_team' => true,
         ]));
+    }
+
+    protected function joinPublicTeam(User $user)
+    {
+        $team = Team::where('system', true)->first();
+        $user->teams()->attach($team);
     }
 }
