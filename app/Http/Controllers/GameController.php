@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Game;
+use App\Models\Game;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 use MarcReichel\IGDBLaravel\Models\Game as Igdb;
-use Carbon\Carbon;
+use Redirect;
 
 class GameController extends Controller
 {
 
     public function index()
     {   
-        return view('games.index')->withTitle('Games')->withurl('/games/get');
+        return Inertia::render('Games', [
+            'url' => '/games/get',
+            'title' => 'Games'
+        ]);
     }
 
     public function getGames()
@@ -65,14 +70,15 @@ class GameController extends Controller
             $genres = $igdb->genres;
         }
 
-        return view('games.show')
-            ->withGame($game)
-            ->withKeys($keys)
-            ->withDlcurl($dlcurl)
-            ->withDlcCount($dlcCount)
-            ->withIgdb($igdb)
-            ->withGenres($genres)
-            ->withScreenshots($screenshots);
+        return Inertia::render('Games/Show', [
+            'game' => $game,
+            'keys' => $keys,
+            'dlcUrl' => $dlcurl,
+            'dlcCount' => $dlcCount,
+            'igdb' => $igdb,
+            'genres' => $genres,
+            'screenshots' => $screenshots
+        ]);
     }
 
     public function edit($id)
@@ -84,6 +90,11 @@ class GameController extends Controller
             $igdb = Igdb::select(['name'])->where('id', '=', $game->igdb_id)->first();
         }
 
+        return Inertia::render('Games/Edit', [
+            'game' => $game,
+            'igdb' => $igdb,
+        ]);
+
         return view('games.edit')->withGame($game)->withIgdb($igdb);
     }
 
@@ -91,26 +102,27 @@ class GameController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'image' => 'image|nullable|max:1999|dimensions:width=264,height=352',
+            'photo' => 'image|nullable|max:1999',
             'igdbname' => 'nullable'
         ]);
 
 
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('photo')) {
             $filename = uniqid();
-            $extension = $request->file('image')->getClientOriginalExtension();
+            $extension = $request->file('photo')->getClientOriginalExtension();
             $filenameToStore = $filename . '.' . $extension;
             $folderToStore = 'images/games/';
             $fullImagePath = $folderToStore . $filenameToStore;
 
-            $path = $request->file('image')->storeAs('public/' . $folderToStore, $filenameToStore);
+            $path = $request->file('photo')->storeAs('public/' . $folderToStore, $filenameToStore);
         }
 
         $game = Game::find($request->gameid);
         $game->name = $request->name;
         $game->description = $request->description;
-        if ($request->hasFile('image')) {
-            $game->image = 'storage/' . $fullImagePath;
+
+        if ($request->hasFile('photo')) {
+            $game->image = '/storage/' . $fullImagePath;
         }
 
         if ($request->igdbname) {
@@ -130,6 +142,6 @@ class GameController extends Controller
 
         $game->save();
 
-        return redirect()->route('game', ['id' => $request->gameid])->with('message', __('games.gameupdated'));
+        return Redirect::route('game.show', [$game]);
     }
 }

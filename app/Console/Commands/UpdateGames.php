@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Game;
 use Carbon\Carbon;
+use Illuminate\Console\Command;
 use MarcReichel\IGDBLaravel\Models\Game as Igdb;
 
 class UpdateGames extends Command

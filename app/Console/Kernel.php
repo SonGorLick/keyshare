@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\CalculateKarma::class,
+        //
     ];
 
     /**
@@ -24,6 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // $schedule->command('inspire')->hourly();
         $schedule->command('demo:refresh')->daily();
         $schedule->command('igdb:update')->daily();
     }

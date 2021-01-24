@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Key;
-use App\Platform;
-use App\Game;
-use Cache;
-use App\User;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redis;
-use App\Dlc;
-use Auth;
-use MarcReichel\IGDBLaravel\Models\Game as Igdb;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Notification;
+use App\Models\Dlc;
+use App\Models\Game;
+use App\Models\Key;
+use App\Models\Platform;
+use App\Models\User;
 use App\Notifications\KeyAdded;
+use Auth;
+use Cache;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
+use Inertia\Inertia;
+use MarcReichel\IGDBLaravel\Models\Game as Igdb;
+use Redirect;
 
 class KeyController extends Controller
 {
@@ -27,7 +28,9 @@ class KeyController extends Controller
             return Platform::all();
         });
 
-        return view('keys.create')->with('platforms', $platforms);
+        return Inertia::render('Keys/Create', [
+            'platforms' => $platforms
+        ]);
     }
 
 
@@ -91,36 +94,44 @@ class KeyController extends Controller
         }
 
         Redis::zincrby('karma', 1, auth()->id());
-        return redirect()->back()->with('message', __('keys.added'));
+        return Redirect::back();
     }
 
     public function show($id)
     {
 
-        $key = Key::where('id', '=', $id)->with('platform')->first();
+        $key = Key::where('id', '=', $id)->with('platform')->with('createdUser')->first();
 
-        return view('keys.show')->withKey($key);
+        return Inertia::render('Keys/Show', [
+            'key' => $key
+        ]);
+
     }
 
     public function claim(Request $request)
     {
-        $key = Key::where('id', '=', $request->id)->where('owned_user_id', '=', null)->first();
+        $key = Key::where('id', '=', $request->key)->where('owned_user_id', '=', null)->first();
 
         if ($key) {
+
             $key = DB::table('keys')
-                ->where('id', '=', $request->id)
+                ->where('id', '=', $request->key)
                 ->update(['owned_user_id' => auth()->id()]);
 
             Redis::zincrby('karma', -1, auth()->id());
-            return redirect()->back()->with('message', __('keys.claimsuccess'));
+
+            return Redirect::route('key.show', [$request->key]);
         } else {
-            return redirect()->back()->with('error', __('keys.alreadyclaimederror'));
+            return Redirect::route('key.show', [$request->key]);
         }
     }
 
     public function showClaimed()
     {
-        return view('games.index')->withTitle('Claimed Keys')->withUrl('/claimedkeys/get');
+        return Inertia::render('Games', [
+            'url' => '/claimedkeys/get',
+            'title' => 'Claimed Keys'
+        ]);
     }
 
     public function getClaimed()
@@ -131,7 +142,10 @@ class KeyController extends Controller
 
     public function showShared()
     {
-        return view('games.index')->withTitle('Shared Keys')->withUrl('/sharedkeys/get');
+        return Inertia::render('Games', [
+            'url' => '/sharedkeys/get',
+            'title' => 'Shared Keys'
+        ]);
     }
 
     public function getShared()

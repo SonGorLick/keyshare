@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Blade;
+use App\Models\Platform;
+use Cache;
 use Illuminate\Support\ServiceProvider;
-use View;
+use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,7 +15,16 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function register()
-    { }
+    {
+        Inertia::share('platforms', function () {
+            return Cache::remember('platforms', 3600, function () {
+                return Platform::all();
+            });
+        });
+
+        Inertia::share('config.name', config('app.name'));
+        Inertia::share('config.dlc_enabled', config('app.dlc_enabled'));
+    }
 
     /**
      * Bootstrap any application services.
@@ -24,13 +33,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if(env('REDIRECT_HTTPS')) {
-            \Illuminate\Support\Facades\URL::forceScheme('https');
-        }
-
-        View::composer(
-            'layouts.app',
-            'App\Http\ViewComposers\PlatformViewComposer'
-        );
+        //
     }
 }

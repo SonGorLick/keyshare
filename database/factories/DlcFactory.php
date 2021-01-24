@@ -1,12 +1,9 @@
 <?php
 
-/* @var $factory \Illuminate\Database\Eloquent\Factory */
-
-use App\Model;
-use App\Dlc;
-use App\Game;
+use App\Models\Dlc;
+use App\Models\Game;
+use App\Models\User;
 use Faker\Generator as Faker;
-use App\User;
 
 $factory->define(Dlc::class, function (Faker $faker) {
     return [

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\LinkedAccount;
+use App\Models\LinkedAccount;
 use Illuminate\Http\Request;
 
 class LinkedAccountController extends Controller
@@ -41,7 +41,7 @@ class LinkedAccountController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\LinkedAccount  $linkedAccount
+     * @param  \App\Models\LinkedAccount  $linkedAccount
      * @return \Illuminate\Http\Response
      */
     public function show(LinkedAccount $linkedAccount)
@@ -52,7 +52,7 @@ class LinkedAccountController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\LinkedAccount  $linkedAccount
+     * @param  \App\Models\LinkedAccount  $linkedAccount
      * @return \Illuminate\Http\Response
      */
     public function edit(LinkedAccount $linkedAccount)
@@ -64,7 +64,7 @@ class LinkedAccountController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\LinkedAccount  $linkedAccount
+     * @param  \App\Models\LinkedAccount  $linkedAccount
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, LinkedAccount $linkedAccount)
@@ -75,7 +75,7 @@ class LinkedAccountController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\LinkedAccount  $linkedAccount
+     * @param  \App\Models\LinkedAccount  $linkedAccount
      * @return \Illuminate\Http\Response
      */
     public function destroy(LinkedAccount $linkedAccount)

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Game;
+use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Game;
+use Inertia\Inertia;
 use MarcReichel\IGDBLaravel\Models\Game as Igdb;
-use Carbon\Carbon;
-use Auth;
+use Redirect;
 
 class SearchController extends Controller
 {
@@ -34,13 +36,18 @@ class SearchController extends Controller
                     $game->igdb_updated = Carbon::today();
                     $game->created_user_id = Auth::id();
                     $game->save();
-                    return redirect()->route('game', $game);
+                    return Redirect::route('game.show', $game);
                 }
             }
-            return view('games.index')->withTitle($search)->withurl('/search/get/?search=' . $search  . '&');
+
+            return Inertia::render('Games', [
+                'url' => '/search/get/?search=' . $search  . '&',
+                'title' => $search
+            ]);
+
         } else {
             $game = $game[0]->id;
-            return redirect()->route('game', $game);
+            return Redirect::route('game.show', $game);
         }
     }
 

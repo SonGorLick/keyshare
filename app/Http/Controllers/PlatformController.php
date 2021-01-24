@@ -2,26 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Platform;
 use Illuminate\Support\Facades\DB;
-use App\Platform;
-use Cache;
+use Inertia\Inertia;
 
 class PlatformController extends Controller
 {
-    public function index()
-    {
-        $platforms = Cache::remember('platforms', 3600, function () {
-            return Platform::all();
-        });
-
-        return $platforms;
-    }
-
     public function show($id)
     {
         $platform = Platform::find($id);
-        return view('games.index')->withTitle($platform->name)->withurl('/platform/get/' . $id);
+
+        return Inertia::render('Games', [
+            'url' => '/platform/get/' . $id,
+            'title' => $platform->name
+        ]);
     }
 
     public function getPlatform($id)

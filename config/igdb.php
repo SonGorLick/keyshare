@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     'enabled' => env('TWITCH_API_ENABLED', 'false'),
     'update_freq' => env('TWITCH_UPDATE_FREQ', 180),
     
@@ -18,7 +19,7 @@ return [
      *
      * To turn cache off set this value to 0
      */
-    'cache_lifetime' => env('TWITCH_CACHE_LIFETIME', 3600),
+    'cache_lifetime' => env('IGDB_CACHE_LIFETIME', 3600),
 
     /*
      * This is the per-page limit for your tier.
