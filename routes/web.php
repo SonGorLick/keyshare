@@ -52,7 +52,7 @@ Route::get('/demo', [HomeController::class, 'demo'])->name('demomode');
 //     Route::get('login/steam/callback', 'Auth\LoginController@steamCallback');
 // });
 
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+Route::middleware(['auth:sanctum', 'verified', 'approved'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
     //SEARCH

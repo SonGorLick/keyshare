@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use Auth;
 use Closure;
+use Auth;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class Approved
 {
@@ -14,11 +16,10 @@ class Approved
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-
         if ( Auth::user()->approved == 0 ) {
-            return redirect('notapproved');
+            return Inertia::render('Auth/NotApproved');
         };
 
         return $next($request);
