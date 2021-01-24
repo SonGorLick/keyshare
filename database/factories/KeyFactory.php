@@ -41,10 +41,11 @@ class KeyFactory extends Factory
                     $dlc =  Dlc::inRandomOrder()->where('Game_id', $game_id)->first();
     
                     if ($dlc == null) {
-                        $dlc = factory(App\Models\Dlc::class)->create([
+                        $dlc = \App\Models\Dlc::factory()->create([
                             'game_id'   =>  $game_id,
                         ]);
                     }
+
                     return $dlc->id;
                 } else {
                     return null;

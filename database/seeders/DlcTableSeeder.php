@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Dlc;
 use Illuminate\Database\Seeder;
 
 class DlcTableSeeder extends Seeder
