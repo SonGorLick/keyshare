@@ -44,7 +44,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 
 // OLD
-Route::get('/notapproved', [HomeController::class, 'notApproved'])->name('notapproved');
 Route::get('/demo', [HomeController::class, 'demo'])->name('demomode');
 
 // Route::middleware(['steamlogin'])->group(function () {
@@ -80,10 +79,6 @@ Route::middleware(['auth:sanctum', 'verified', 'approved'])->group(function () {
     //USERS
     // Route::get('/users', [UserController::class, 'index'])->name('users');
     // Route::get('/users/{id}', [UserController::class, 'show'])->name('showuser');
-    // Route::get('/user/edit', [UserController::class, 'edit'])->name('edituser')->middleware('demomode');
-    // Route::post('/user/update', [UserController::class, 'update'])->name('updateuser')->middleware('demomode');
-    // Route::get('/changepassword', [UserController::class, 'passwordResetPage'])->name('changepassword')->middleware('demomode');
-    // Route::post('/changepassword/save', [UserController::class, 'passwordResetSave'])->name('postpassword')->middleware('demomode');
 
     //PLATFORMS
     Route::get('/platform/{id}', [PlatformController::class, 'show'])->name('platform.show');

@@ -34,5 +34,12 @@ return [
         'enabled' => env('DISCORD_ENABLED', false),
         'token' => env('DISCORD_TOKEN', ''),
         'channel' =>  env('DISCORD_CHANNEL', '')
-    ]
+    ],
+
+    'steam' => [
+        'client_id' => null,
+        'enabled' => env('STEAM_LOGIN_ENABLED', false),
+        'client_secret' => env('STEAM_CLIENT_SECRET', ''),
+        'redirect' => env('APP_URL').'/login/steam/callback'
+      ],
 ];
