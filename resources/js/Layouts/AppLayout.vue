@@ -54,9 +54,11 @@
             text="Admin"
             right
           >
-            <b-dropdown-item href="#">
-              Users
-            </b-dropdown-item>
+            <router-link :to="route('admin.users.index')">
+              <a class="dropdown-item">
+                Users
+              </a>
+            </router-link>
           </b-nav-item-dropdown>
 
           <b-nav-item-dropdown right>

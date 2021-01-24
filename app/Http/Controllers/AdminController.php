@@ -4,13 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class AdminController extends Controller
 {
     public function usersIndex() {
         $users = User::orderBy('approved')
                     ->paginate(15);
-        return view('admin.users.index')->withUsers($users);
+
+        // return view('admin.users.index')->withUsers($users);
+
+        return Inertia::render('Admin/Users/Index', [
+            'users' => $users
+        ]);
     }
 
     public function usersEdit($id) {

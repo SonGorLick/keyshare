@@ -6,6 +6,7 @@ use App\Http\Controllers\KeyController;
 use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\DlcController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -98,12 +99,7 @@ Route::middleware(['auth:sanctum', 'verified', 'approved'])->group(function () {
 });
 
 Route::middleware(['admin'])->group(function () {
-    // Route::get('/admin/users', [AdminController::class, 'usersIndex'])->name('adminshowusers');
-    // Route::get('/admin/user/{id}', [AdminController::class, 'usersEdit'])->name('adminuseredit')->middleware('demomode');
-    // Route::post('/admin/user/update', [AdminController::class, 'usersUpdate'])->name('adminuserupdate')->middleware('demomode');
-
-
-
-    
-    
+    Route::get('/admin/users', [AdminController::class, 'usersIndex'])->name('admin.users.index');
+    Route::get('/admin/user/{id}', [AdminController::class, 'usersEdit'])->name('adminuseredit')->middleware('demomode');
+    Route::post('/admin/user/update', [AdminController::class, 'usersUpdate'])->name('adminuserupdate')->middleware('demomode');
 });
