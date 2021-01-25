@@ -23,14 +23,4 @@ class HomeController extends Controller
         }
         return redirect()->route('game.index');
     }
-
-    public function notApproved()
-    {
-        return view('auth.notApproved');
-    }
-
-    public function demo()
-    {
-        return view('auth.demomode');
-    }
 }

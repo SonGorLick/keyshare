@@ -126,7 +126,7 @@ return [
     
     // Custom Config
 
-    'demo_mode' => env('DEMO_MODE', false),
+    'demo_mode' => env('DEMO_MODE', true),
     'auto_approve' => env('AUTO_APPROVE', false),
     'dlc_enabled' => env('DLC_ENABLED', true),
 

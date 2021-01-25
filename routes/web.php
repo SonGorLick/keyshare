@@ -24,7 +24,6 @@ use Inertia\Inertia;
 */
 
 
-Route::get('/demo', [HomeController::class, 'demo'])->name('demomode');
 Route::get('login/steam', [ExternalLoginController::class, 'steamRedirect'])->name('steamlogin');
 Route::get('login/steam/callback', [ExternalLoginController::class, 'steamCallback']);
 
