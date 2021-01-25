@@ -54,10 +54,6 @@ Route::middleware(['auth:sanctum', 'verified', 'approved'])->group(function () {
     Route::post('addkey/store', [KeyController::class, 'store'])->name('key.store');
     Route::put('addkey/claim', [KeyController::class, 'claim'])->name('key.claim');
 
-    //USERS
-    // Route::get('/users', [UserController::class, 'index'])->name('users');
-    // Route::get('/users/{id}', [UserController::class, 'show'])->name('showuser');
-
     //PLATFORMS
     Route::get('/platform/{id}', [PlatformController::class, 'show'])->name('platform.show');
     Route::get('/platform/get/{id}', [PlatformController::class, 'getPlatform']);

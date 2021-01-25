@@ -6,8 +6,8 @@ use Socialite;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
-use App\User;
-use App\LinkedAccount;
+use App\Models\User;
+use App\Models\LinkedAccount;
 
 class ExternalLoginController extends Controller
 {
@@ -25,18 +25,12 @@ class ExternalLoginController extends Controller
 
         if (count($KeyshareUser) == 0) {
 
-            if( config('keyshare.autoapproveusers') == 1) {
-                $approved = 1;
-            } else {
-                $approved = 0;
-            };
-
             $KeyshareUser = User::create([
                 'name' => $steamuser->nickname,
                 'image' => $steamuser->avatar,
                 'email' => uniqid(),
                 'password' => uniqid(),
-                'approved' => $approved,
+                'approved' => config('app.auto_approve')
             ]);
 
 
