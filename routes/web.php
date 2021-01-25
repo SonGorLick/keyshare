@@ -9,6 +9,7 @@ use App\Http\Controllers\DlcController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ExternalLoginController;
 use Inertia\Inertia;
 
 /*
@@ -22,38 +23,14 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
 
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    //search
-    Route::get('/search', [SearchController::class, 'search'])->name('search');
-    Route::get('/search/get', [SearchController::class, 'getSearch']);
-
-    //games
-    Route::get('games', [GameController::class, 'index'])->name('games');
-
-    //keys
-    Route::get('addkey', [KeyController::class, 'create'])->name('addkey');
-    Route::post('addkey', [KeyController::class, 'store'])->name('storekey');
-});
-
-
-// OLD
 Route::get('/demo', [HomeController::class, 'demo'])->name('demomode');
+Route::get('login/steam', [ExternalLoginController::class, 'steamRedirect'])->name('steamlogin');
+Route::get('login/steam/callback', [ExternalLoginController::class, 'steamCallback']);
 
-// Route::middleware(['steamlogin'])->group(function () {
-//     Route::get('login/steam', 'Auth\LoginController@steamRedirect')->name('steamlogin');
-//     Route::get('login/steam/callback', 'Auth\LoginController@steamCallback');
-// });
 
 Route::middleware(['auth:sanctum', 'verified', 'approved'])->group(function () {
+    //HOME
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
     //SEARCH
@@ -73,8 +50,8 @@ Route::middleware(['auth:sanctum', 'verified', 'approved'])->group(function () {
     Route::get('claimedkeys/get', [KeyController::class, 'getClaimed']);
     Route::get('sharedkeys', [KeyController::class, 'showShared'])->name('sharedkeys');
     Route::get('sharedkeys/get', [KeyController::class, 'getShared']);
-    Route::get('addkey/', [KeyController::class, 'create'])->name('addkey');
 
+    Route::get('addkey', [KeyController::class, 'create'])->name('addkey');
     Route::post('addkey/store', [KeyController::class, 'store'])->name('key.store');
     Route::put('addkey/claim', [KeyController::class, 'claim'])->name('key.claim');
 
@@ -89,17 +66,19 @@ Route::middleware(['auth:sanctum', 'verified', 'approved'])->group(function () {
     //DLC
     Route::get('/games/dlc/get/{id}', [DlcController::class, 'index']);
     Route::get('/games/dlc/{dlc}', [DlcController::class, 'show'])->name('dlc.show');
-
-
-    //// TO BE MOVED TO ADMIN
-    Route::get('/games/edit/{id}', [GameController::class, 'edit'])->name('game.edit');
-    Route::put('/games/update', [GameController::class, 'update'])->name('game.update');
-    Route::get('/games/dlc/edit/{dlc}', [DlcController::class, 'edit'])->name('dlc.edit');
-    Route::put('/games/dlc/update', [DlcController::class, 'update'])->name('dlc.update');
 });
 
 Route::middleware(['admin'])->group(function () {
+    //Users
     Route::get('/admin/users', [AdminController::class, 'usersIndex'])->name('admin.users.index');
-    Route::get('/admin/user/{id}', [AdminController::class, 'usersEdit'])->name('adminuseredit')->middleware('demomode');
-    Route::post('/admin/user/update', [AdminController::class, 'usersUpdate'])->name('adminuserupdate')->middleware('demomode');
+    Route::get('/admin/user/{id}', [AdminController::class, 'usersEdit'])->name('admin.users.edit')->middleware('demomode');
+    Route::post('/admin/user/update', [AdminController::class, 'usersUpdate'])->name('admin.users.update')->middleware('demomode');
+
+    //Games
+    Route::get('/games/edit/{id}', [GameController::class, 'edit'])->name('game.edit');
+    Route::put('/games/update', [GameController::class, 'update'])->name('game.update');
+
+    //DLC
+    Route::get('/games/dlc/edit/{dlc}', [DlcController::class, 'edit'])->name('dlc.edit');
+    Route::put('/games/dlc/update', [DlcController::class, 'update'])->name('dlc.update');
 });

@@ -23,6 +23,7 @@
         "laravel/tinker": "^2.5",
         "marcreichel/igdb-laravel": "^2.1",
         "socialiteproviders/steam": "^4.1",
+        "socialiteproviders/zoho": "^4.1",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {

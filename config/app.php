@@ -185,6 +185,9 @@ return [
 
         //Notification Providers
         NotificationChannels\Discord\DiscordServiceProvider::class,
+
+        //Socialite Providers
+        \SocialiteProviders\Manager\ServiceProvider::class 
     ],
 
     /*

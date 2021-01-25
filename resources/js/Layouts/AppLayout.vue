@@ -104,8 +104,8 @@
                 Manage Team
               </b-dropdown-header>
 
-              <!-- Team Settings -->
-              <router-link :to="route('teams.show', $page.props.user.current_team)">
+              <!-- Team Settings  -->
+              <router-link v-if="$page.props.user.current_team" :to="route('teams.show', $page.props.user.current_team)">
                 <a class="dropdown-item">Team Settings</a>
               </router-link>
 
@@ -113,7 +113,7 @@
                 <a class="dropdown-item">Create New Team</a>
               </router-link>
 
-              <b-dropdown-header>
+              <b-dropdown-header v-if="$page.props.user.all_teams.length > 0">
                 Switch Teams
               </b-dropdown-header>
               <template v-for="team in $page.props.user.all_teams">

@@ -129,15 +129,27 @@ class User extends Authenticatable
         }
     }
 
+    public function hasTeams()
+    {
+        return $this->allTeams()->isNotEmpty();
+    }
+
+    public function ownsTeam($team)
+    {
+        return $this->id == optional($team)->user_id;
+    }
+
+    public function isCurrentTeam($team)
+    {
+        return optional($team)->id === $this->currentTeam->id;
+    }
+
     public function currentTeam()
     {
-        if (is_null($this->current_team_id)) {
-            $team = Team::where('system', true)->first();
-
-            $this->forceFill([
-                'current_team_id' => $team->id,
-            ])->save();
+        if (is_null($this->current_team_id) && $this->id) {
+            $this->switchTeam($this->allTeams()->first());
         }
         return $this->belongsTo(Jetstream::teamModel(), 'current_team_id');
     }
+
 }
