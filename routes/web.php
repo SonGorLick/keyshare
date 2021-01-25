@@ -30,6 +30,8 @@ Route::get('login/steam/callback', [ExternalLoginController::class, 'steamCallba
 Route::get('login/discord', [ExternalLoginController::class, 'discordRedirect'])->name('login.discord');
 Route::get('login/discord/callback', [ExternalLoginController::class, 'discordCallback'])->name('login.discord.callback');
 
+Route::get('login/twitch', [ExternalLoginController::class, 'twitchRedirect'])->name('login.twitch');
+Route::get('login/twitch/callback', [ExternalLoginController::class, 'twitchCallback'])->name('login.twitch.callback');
 
 Route::middleware(['auth:sanctum', 'verified', 'approved'])->group(function () {
     //HOME

@@ -51,4 +51,12 @@ return [
         'allow_gif_avatars' => (bool)env('DISCORD_AVATAR_GIF', true),
         'avatar_default_extension' => env('DISCORD_EXTENSION_DEFAULT', 'jpg'),
     ],
+
+    'twitch' => [    
+        'enabled' => env('TWITCH_LOGIN_ENABLED', false),
+        'client_id' => env('TWITCH_CLIENT_ID'),  
+        'client_secret' => env('TWITCH_CLIENT_SECRET'),  
+        'redirect' => env('APP_URL').'/login/twitch/callback'
+    ],
+      
 ];

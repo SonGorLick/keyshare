@@ -96,4 +96,46 @@ class ExternalLoginController extends Controller
         Auth::login($KeyshareUser);
         return redirect('/games');
     }
+
+    
+    public function twitchRedirect()
+    {
+        return Socialite::driver('twitch')->redirect();
+    }
+
+    public function twitchCallback()
+    {
+        $twitchuser = Socialite::driver('twitch')->user();
+
+        $KeyshareUser = LinkedAccount::where('account_id', '=', $twitchuser->id)->get();
+
+        if (count($KeyshareUser) == 0) {
+
+            $KeyshareUser = User::create([
+                'name' => $twitchuser->nickname,
+                'image' => $twitchuser->avatar,
+                'email' => uniqid(),
+                'password' => uniqid(),
+                'approved' => config('app.auto_approve')
+            ]);
+
+
+            $LinkedAccount = new LinkedAccount;
+                $LinkedAccount->user_id = $KeyshareUser->id;
+                $LinkedAccount->linked_account_provider_id = '3';
+                $LinkedAccount->account_id = $twitchuser->id;
+            $LinkedAccount->save();
+
+        } elseif (count($KeyshareUser) == 1) {
+            $KeyshareUser = User::find($KeyshareUser[0]->user_id);
+                $KeyshareUser->name = $twitchuser->nickname;
+                $KeyshareUser->image = $twitchuser->avatar;
+            $KeyshareUser->save();
+        } else {
+            return 'Error';
+        }
+
+        Auth::login($KeyshareUser);
+        return redirect('/games');
+    }
 }

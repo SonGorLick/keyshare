@@ -24,6 +24,7 @@
         "marcreichel/igdb-laravel": "^2.1",
         "socialiteproviders/discord": "^4.1",
         "socialiteproviders/steam": "^4.1",
+        "socialiteproviders/twitch": "^5.3",
         "socialiteproviders/zoho": "^4.1",
         "tightenco/ziggy": "^1.0"
     },
