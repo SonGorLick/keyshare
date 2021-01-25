@@ -21,7 +21,10 @@ class AdminController extends Controller
 
     public function usersEdit($id) {
         $user = User::find($id);
-        return view('admin.users.edit')->withUser($user);
+
+        return Inertia::render('Admin/Users/Edit', [
+            'auser' => $user
+        ]);
     }
 
     public function usersUpdate(Request $request) {
@@ -31,9 +34,9 @@ class AdminController extends Controller
             'bio' => 'nullable',
         ]);
 
-        if (! $request->approved ) {
-            $approved = 0;
-        } else {
+        $approved = 0;
+
+        if ($request->approved ) {
             $approved = 1;
         }
 

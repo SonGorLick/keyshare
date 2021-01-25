@@ -1,7 +1,7 @@
 <template>
   <app-layout>
     <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+      <h2>
         Profile
       </h2>
     </template>
@@ -14,26 +14,25 @@
       </div>
 
       <div v-if="$page.props.jetstream.canUpdatePassword">
-        <update-password-form class="mt-10 sm:mt-0" />
+        <update-password-form />
 
         <jet-section-border />
       </div>
 
       <div v-if="$page.props.jetstream.canManageTwoFactorAuthentication">
-        <two-factor-authentication-form class="mt-10 sm:mt-0" />
+        <two-factor-authentication-form />
 
         <jet-section-border />
       </div>
 
       <logout-other-browser-sessions-form
         :sessions="sessions"
-        class="mt-10 sm:mt-0"
       />
 
       <template v-if="$page.props.jetstream.hasAccountDeletionFeatures">
         <jet-section-border />
 
-        <delete-user-form class="mt-10 sm:mt-0" />
+        <delete-user-form />
       </template>
     </b-container>
   </app-layout>

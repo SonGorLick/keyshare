@@ -53,7 +53,7 @@
           @click.prevent="submit"
         >
           Reset Password
-          </b-button>
+        </b-button>
       </form>
     </b-container>
   </guest-layout>

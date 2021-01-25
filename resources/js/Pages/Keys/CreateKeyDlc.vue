@@ -20,15 +20,14 @@
 
       <label for="dlcname">DLC:</label>
       <autocomplete
+        v-model="form.dlcname"
         :url="'autocomplete/dlc/' + game + '/'"
         placeholder
-        v-model="form.dlcname"
         classes="form-control"
       />
       <jet-input-error
         :message="form.errors.dlcname"
       />
-
 
       <label for="platform">Platform:</label>
       <b-form-select v-model="form.platform_id">

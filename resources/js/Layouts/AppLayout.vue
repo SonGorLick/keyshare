@@ -97,15 +97,15 @@
               <a class="dropdown-item">Claimed Keys</a>
             </router-link>
 
-            <b-dropdown-divider />
+            <!-- <b-dropdown-divider /> -->
 
-            <template v-if="$page.props.jetstream.hasTeamFeatures">
+            <!-- <template v-if="$page.props.jetstream.hasTeamFeatures">
               <b-dropdown-header>
                 Manage Team
-              </b-dropdown-header>
+              </b-dropdown-header> -->
 
-              <!-- Team Settings  -->
-              <router-link v-if="$page.props.user.current_team" :to="route('teams.show', $page.props.user.current_team)">
+            <!-- Team Settings  -->
+            <!-- <router-link v-if="$page.props.user.current_team" :to="route('teams.show', $page.props.user.current_team)">
                 <a class="dropdown-item">Team Settings</a>
               </router-link>
 
@@ -124,8 +124,8 @@
                 >
                   {{ team.name }}
                 </b-dropdown-item-button>
-              </template>
-            </template>
+              </template> -->
+            <!-- </template> -->
             <b-dropdown-divider />
             <b-dropdown-item
               type="submit"

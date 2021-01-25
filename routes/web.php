@@ -71,8 +71,8 @@ Route::middleware(['auth:sanctum', 'verified', 'approved'])->group(function () {
 Route::middleware(['admin'])->group(function () {
     //Users
     Route::get('/admin/users', [AdminController::class, 'usersIndex'])->name('admin.users.index');
-    Route::get('/admin/user/{id}', [AdminController::class, 'usersEdit'])->name('admin.users.edit')->middleware('demomode');
-    Route::post('/admin/user/update', [AdminController::class, 'usersUpdate'])->name('admin.users.update')->middleware('demomode');
+    Route::get('/admin/user/{id}', [AdminController::class, 'usersEdit'])->name('admin.users.edit')->middleware('demo');
+    Route::post('/admin/user/update', [AdminController::class, 'usersUpdate'])->name('admin.users.update')->middleware('demo');
 
     //Games
     Route::get('/games/edit/{id}', [GameController::class, 'edit'])->name('game.edit');

@@ -67,7 +67,7 @@
           <b-link :href="route('register')">
             Register
           </b-link>
-          <a :href="route('steamlogin')"><img  src="/images/steamlogin.png" /></a>
+          <a :href="route('steamlogin')"><img src="/images/steamlogin.png"></a>
         </div>
       </form>
     </b-container>
