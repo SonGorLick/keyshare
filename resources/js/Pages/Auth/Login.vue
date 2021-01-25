@@ -95,9 +95,10 @@ export default {
   data () {
     return {
       form: this.$inertia.form({
+        name: '',
         email: '',
         password: '',
-        remember: false
+        password_confirmation: '',
       })
     }
   },

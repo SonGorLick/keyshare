@@ -7,6 +7,7 @@ use App\Http\Controllers\PlatformController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\DlcController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExternalLoginController;
@@ -34,6 +35,10 @@ Route::get('login/twitch', [ExternalLoginController::class, 'twitchRedirect'])->
 Route::get('login/twitch/callback', [ExternalLoginController::class, 'twitchCallback'])->name('login.twitch.callback');
 
 Route::middleware(['auth:sanctum', 'verified', 'approved'])->group(function () {
+    //SETUP (Accounts created with socialite)
+    Route::get('login/setup', [UserController::class, 'setup'])->name('login.setup');
+    Route::put('login/setup/update', [UserController::class, 'setupUpdate'])->name('login.setup.update');
+
     //HOME
     Route::get('/', [HomeController::class, 'index'])->name('home');
 
