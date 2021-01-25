@@ -84,6 +84,20 @@
         />
         <jet-input-error :message="form.errors.email" />
       </div>
+
+      <!-- Bio -->
+      <div>
+        <jet-label
+          for="bio"
+          value="Bio:"
+        />
+        <b-form-textarea
+          id="bio"
+          v-model="form.bio"
+          type="text"
+        />
+        <jet-input-error :message="form.errors.bio" />
+      </div>
     </template>
 
     <template #actions>
@@ -124,6 +138,7 @@ export default {
         _method: 'PUT',
         name: this.user.name,
         email: this.user.email,
+        bio: this.user.bio,
         photo: null
       }),
 
@@ -133,8 +148,6 @@ export default {
 
   methods: {
     updateProfileInformation () {
-      console.log('hello')
-
       if (this.$refs.photo) {
         this.form.photo = this.$refs.photo.files[0]
       }
