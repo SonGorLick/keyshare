@@ -55,4 +55,45 @@ class ExternalLoginController extends Controller
         Auth::login($KeyshareUser);
         return redirect('/games');
     }
+
+    public function discordRedirect()
+    {
+        return Socialite::driver('discord')->redirect();
+    }
+
+    public function discordCallback()
+    {
+        $discorduser = Socialite::driver('discord')->user();
+
+        $KeyshareUser = LinkedAccount::where('account_id', '=', $discorduser->id)->get();
+
+        if (count($KeyshareUser) == 0) {
+
+            $KeyshareUser = User::create([
+                'name' => $discorduser->nickname,
+                'image' => $discorduser->avatar,
+                'email' => uniqid(),
+                'password' => uniqid(),
+                'approved' => config('app.auto_approve')
+            ]);
+
+
+            $LinkedAccount = new LinkedAccount;
+                $LinkedAccount->user_id = $KeyshareUser->id;
+                $LinkedAccount->linked_account_provider_id = '2';
+                $LinkedAccount->account_id = $discorduser->id;
+            $LinkedAccount->save();
+
+        } elseif (count($KeyshareUser) == 1) {
+            $KeyshareUser = User::find($KeyshareUser[0]->user_id);
+                $KeyshareUser->name = $discorduser->nickname;
+                $KeyshareUser->image = $discorduser->avatar;
+            $KeyshareUser->save();
+        } else {
+            return 'Error';
+        }
+
+        Auth::login($KeyshareUser);
+        return redirect('/games');
+    }
 }

@@ -24,8 +24,11 @@ use Inertia\Inertia;
 */
 
 
-Route::get('login/steam', [ExternalLoginController::class, 'steamRedirect'])->name('steamlogin');
-Route::get('login/steam/callback', [ExternalLoginController::class, 'steamCallback']);
+Route::get('login/steam', [ExternalLoginController::class, 'steamRedirect'])->name('login.steam');
+Route::get('login/steam/callback', [ExternalLoginController::class, 'steamCallback'])->name('login.steam.callback');
+
+Route::get('login/discord', [ExternalLoginController::class, 'discordRedirect'])->name('login.discord');
+Route::get('login/discord/callback', [ExternalLoginController::class, 'discordCallback'])->name('login.discord.callback');
 
 
 Route::middleware(['auth:sanctum', 'verified', 'approved'])->group(function () {

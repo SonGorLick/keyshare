@@ -21,6 +21,7 @@ class EventServiceProvider extends ServiceProvider
         //Socialite Providers
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
             'SocialiteProviders\\Steam\\SteamExtendSocialite@handle',
+            'SocialiteProviders\\Discord\\DiscordExtendSocialite@handle',
         ],
     ];
 

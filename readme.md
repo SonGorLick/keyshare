@@ -34,7 +34,7 @@ services:
      APP_NAME: KeyshareDemo
      APP_KEY: base64:Hsn2BwXdpKHhEiTSDkkuWP1OwbfcZZFQlLoWbjY4lk8=
      STEAM_LOGIN: false
-     STEAM_API_KEY: 12345
+     STEAM_CLIENT_SECRET: 12345
      APP_URL: https://360nohope.co.uk
      ASSET_URL: https://360nohope.co.uk
      DB_HOST: keyshare-db
@@ -42,11 +42,6 @@ services:
      DB_USERNAME: keyshare
      DB_PASSWORD: secret
      REDIS_HOST: keyshare-redis
-     TWITCH_API_ENABLED: 'true'
-     TWITCH_CLIENT_ID: - GET THIS FROM These are the credentials you got from https://dev.twitch.tv/console/apps -
-     TWITCH_CLIENT_SECRET:  - GET THIS FROM These are the credentials you got from https://dev.twitch.tv/console/apps -
-     TWITCH_UPDATE_FREQ: 180
-     TWITCH_CACHE_LIFETIME: 3600
      DLC_ENABLED: 'false'
      DISCORD_ENABLED: 'false'
      DISCORD_TOKEN: - Get from https://discord.com/developers/applications
@@ -94,10 +89,10 @@ APP_KEY | Unique base64 string. Run ``` sudo docker run -e "CONTAINER_ROLE=keyge
 APP_DEBUG | Enables debug logging
 APP_URL | External URL you will access the site from
 ASSET_URL | External URL that assets are loaded from
-AUTO_APPROVE_USERS | Boolean value, Whether anyone can sign up for the site, or they require an admin to authorise them
+AUTO_APPROVE | Boolean value, Whether anyone can sign up for the site, or they require an admin to authorise them
 REDIRECT_HTTPS | Boolean value, Used if you're running keyshare behind a proxy, if the site is using HTTP and the proxy is using HTTPS.
 STEAM_LOGIN | Boolean value, enabled steam login
-STEAM_API_KEY | API key for steam login, generated on https://steamcommunity.com/dev/apikey
+STEAM_CLIENT_SECRET | API key for steam login, generated on https://steamcommunity.com/dev/apikey
 TWITCH_API_ENABLED | Enabled/Disables the external twitch API for game lookups
 TWITCH_CLIENT_ID | If twitch API is enabled, you'll need to supply this. These are the credentials you got from https://dev.twitch.tv/console/apps
 TWITCH_CLIENT_SECRET | Secret to match above ID
